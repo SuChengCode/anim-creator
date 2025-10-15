@@ -3,6 +3,7 @@
     <engine:VisualElement>
         <engine:IntegerField label="Frame rate" value="30" name="frameRateField" />
         <engine:TextField label="Animator name" placeholder-text="filler text" name="animNameField" value="auto" />
+        <engine:Toggle label="Loop" enabled="true" value="true" name="loopToggle" />
         <engine:Button text="Create" name="createBtn" />
     </engine:VisualElement>
 </engine:UXML>

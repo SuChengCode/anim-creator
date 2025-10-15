@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "com.cicadacity.animcreator": {
-      "version": "file:com.lisuzhi2.animcreator",
+      "version": "file:com.cicadacity.animcreator",
       "depth": 0,
       "source": "embedded",
       "dependencies": {}

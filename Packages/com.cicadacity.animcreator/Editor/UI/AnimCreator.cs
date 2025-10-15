@@ -16,6 +16,7 @@ namespace AnimCreator
         private IntegerField _frameRateField;
         private Button _createBtn;
         private TextField _animNameField;
+        private Toggle _loopToggle;
 
         [MenuItem("Window/AnimCreator")]
         public static void ShowExample()
@@ -36,6 +37,7 @@ namespace AnimCreator
             _frameRateField = uxmlInstance.Q<IntegerField>("frameRateField");
             _createBtn = uxmlInstance.Q<Button>("createBtn");
             _animNameField = uxmlInstance.Q<TextField>("animNameField");
+            _loopToggle = uxmlInstance.Q<Toggle>("loopToggle");
 
             // 绑定事件
             _createBtn.clicked += OnCreateButtonClicked;
@@ -108,6 +110,9 @@ namespace AnimCreator
             }
 
             AnimationUtility.SetObjectReferenceCurve(clip, binding, keyFrames);
+            var settings = AnimationUtility.GetAnimationClipSettings(clip);
+            settings.loopTime = true;
+            AnimationUtility.SetAnimationClipSettings(clip, settings);
 
             string clipPath = Path.Combine(path, animName + "Anim.anim");
             AssetDatabase.CreateAsset(clip, clipPath);
