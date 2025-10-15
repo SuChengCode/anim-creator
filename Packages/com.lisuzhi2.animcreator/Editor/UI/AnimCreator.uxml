@@ -1,0 +1,8 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Packages/com.cicadacity.animcreator/Editor/UI/AnimCreator.uss?fileID=7433441132597879392&amp;guid=f9858755c7fe6cf4eaca92f8bd64cfc3&amp;type=3#AnimCreator" />
+    <engine:VisualElement>
+        <engine:IntegerField label="Frame rate" value="30" name="frameRateField" />
+        <engine:TextField label="Animator name" placeholder-text="filler text" name="animNameField" value="auto" />
+        <engine:Button text="Create" name="createBtn" />
+    </engine:VisualElement>
+</engine:UXML>
