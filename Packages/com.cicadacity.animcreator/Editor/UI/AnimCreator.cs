@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
@@ -17,6 +18,7 @@ namespace AnimCreator
         private Button _createBtn;
         private TextField _animNameField;
         private Toggle _loopToggle;
+        private Toggle _useImageToggle;
 
         [MenuItem("Window/AnimCreator")]
         public static void ShowExample()
@@ -38,6 +40,7 @@ namespace AnimCreator
             _createBtn = uxmlInstance.Q<Button>("createBtn");
             _animNameField = uxmlInstance.Q<TextField>("animNameField");
             _loopToggle = uxmlInstance.Q<Toggle>("loopToggle");
+            _useImageToggle = uxmlInstance.Q<Toggle>("useImageToggle");
 
             // 绑定事件
             _createBtn.clicked += OnCreateButtonClicked;
@@ -46,10 +49,12 @@ namespace AnimCreator
         private void OnCreateButtonClicked()
         {
             int frameRate = _frameRateField.value;
-            CreateAnimationFromSelection(frameRate);
+            bool loopToggle = _loopToggle.value;
+            bool useImageToggle = _useImageToggle.value;
+            CreateAnimationFromSelection(frameRate, loopToggle, useImageToggle);
         }
 
-        private void CreateAnimationFromSelection(int frameRate)
+        private void CreateAnimationFromSelection(int frameRate, bool loop, bool isImage)
         {
             // 获取当前选中的 Sprite 资源
             // 获取选中的对象
@@ -92,9 +97,18 @@ namespace AnimCreator
             // === 创建 AnimationClip ===
             AnimationClip clip = new AnimationClip { frameRate = frameRate };
 
+            Type clipType;
+            if (isImage)
+            {
+                clipType = typeof(UnityEngine.UI.Image);
+            }
+            else
+            {
+                clipType = typeof(SpriteRenderer);
+            }
             var binding = new EditorCurveBinding
             {
-                type = typeof(SpriteRenderer),
+                type = clipType,
                 path = "",
                 propertyName = "m_Sprite"
             };
@@ -111,7 +125,7 @@ namespace AnimCreator
 
             AnimationUtility.SetObjectReferenceCurve(clip, binding, keyFrames);
             var settings = AnimationUtility.GetAnimationClipSettings(clip);
-            settings.loopTime = true;
+            settings.loopTime = loop;
             AnimationUtility.SetAnimationClipSettings(clip, settings);
 
             string clipPath = Path.Combine(path, animName + "Anim.anim");
